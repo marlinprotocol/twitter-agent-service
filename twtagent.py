@@ -18,7 +18,7 @@ async def login_into_email(
     kms_generated_password: str
 ) -> bool:
     agent_script = f"""
-    1. Visit https://app.tuta.com/login and enter the email {user_email} and password {kms_generated_password} and click on Log in password.
+    1. Visit https://app.tuta.com/login and enter the email {user_email} and password {kms_generated_password} and click on Log in.
     2. If you are able to login into the account, return message 'Logged in with KMS generated password'.
     """
     agent = Agent(browser=browser, task=agent_script, llm=ChatOpenAI(model="gpt-4o"))
