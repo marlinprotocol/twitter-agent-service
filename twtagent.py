@@ -1,18 +1,17 @@
+import asyncio
+
+from os import getenv
 from langchain_openai import ChatOpenAI
 from browser_use import Agent
-import asyncio
-from dotenv import load_dotenv
-import os
 from browser_use import BrowserConfig
 from browser_use import Browser
 
-load_dotenv()
 
 async def main():
-    kms_generated_password = os.getenv("KMS_GENERATED_PASSWORD")
-    user_provided_password = os.getenv("USER_PASSWORD")
-    username = os.getenv("USERNAME")
-    user_email = os.getenv("USER_EMAIL")
+    kms_generated_password = getenv("KMS_GENERATED_PASSWORD")
+    user_provided_password = getenv("USER_PASSWORD")
+    username = getenv("USERNAME")
+    user_email = getenv("USER_EMAIL")
 
     config = BrowserConfig(
         headless=True,
