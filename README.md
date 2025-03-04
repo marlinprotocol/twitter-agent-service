@@ -10,3 +10,10 @@ USERNAME=
 USER_EMAIL=
 KMS_GENERATED_PASSWORD=
 ```
+
+## TODO
+
+- [x] X password reset.
+- [ ] Password reset for tuta email-id.
+- [ ] Generating access token for api access with X developer portal.
+- [ ] Interface to send tweets.
