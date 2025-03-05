@@ -13,6 +13,12 @@ KMS_GENERATED_PASSWORD=
 X_APP_NAME=
 ```
 
+## Running the twitter-agent
+
+```
+python3 twtagent.py
+```
+
 ## TODO
 
 - [x] X password reset.
