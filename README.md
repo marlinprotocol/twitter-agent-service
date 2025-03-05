@@ -16,5 +16,9 @@ KMS_GENERATED_PASSWORD=
 
 - [x] X password reset.
 - [x] Password and recovery phrase reset for tuta email-id.
-- [ ] Generating access token for api access with X developer portal.
+- [x] Generating access token for api access with X developer portal.
 - [ ] Interface to send tweets.
+- [ ] KMS integration
+- [ ] Enclave setup
+
+
