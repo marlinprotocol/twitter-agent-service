@@ -19,6 +19,11 @@ X_APP_NAME=
 python3 twtagent.py
 ```
 
+## Generate access token endpoint
+```
+curl 127.0.0.1:5000/get_access_tokens
+```
+
 ## TODO
 
 - [x] X password reset.
