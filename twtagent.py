@@ -1,11 +1,19 @@
 from os import getenv
 import json
 from flask import Flask, jsonify
+from flask_caching import Cache
 from browser_setup import setup_browser
 from email_actions import login_into_email, reset_email_password
 from twitter_actions import attempt_twitter_login, login_and_reset_twitter_password, generate_x_api_keys, generate_x_access_token_secret
 
+config = {
+    "DEBUG": True,     
+    "CACHE_TYPE": "SimpleCache",  
+    "CACHE_DEFAULT_TIMEOUT": 10000000
+}
 app = Flask(__name__)
+app.config.from_mapping(config)
+cache = Cache(app)
 
 async def perform_actions():
     # Get environment variables
@@ -50,9 +58,9 @@ async def perform_actions():
     return api_keys, access_tokens
 
 @app.route("/get_access_tokens", methods=["GET"])
+@cache.cached(timeout=10000000)
 async def get_access_tokens():
     api_keys, access_tokens = await perform_actions()
-
     if api_keys and access_tokens:
         return jsonify({
             "api_keys": api_keys,
