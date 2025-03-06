@@ -29,7 +29,7 @@ curl 127.0.0.1:5000/get_access_tokens
 - [x] X password reset.
 - [x] Password and recovery phrase reset for tuta email-id.
 - [x] Generating access token for api access with X developer portal.
-- [ ] Interface to send tweets.
+- [x] Interface to get access tokens and api keys
 - [ ] KMS integration
 - [ ] Enclave setup
 
