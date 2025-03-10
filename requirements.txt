@@ -1,4 +1,3 @@
 Flask==3.1.0
-Flask-Caching==2.3.1
 Flask[Async]
 browser-use==0.1.40

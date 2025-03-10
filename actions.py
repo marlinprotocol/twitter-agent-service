@@ -1,21 +1,11 @@
-from os import getenv
 import json
-from flask import Flask, jsonify
-from flask_caching import Cache
+from os import getenv, path
+from datetime import datetime
 from browser_setup import setup_browser
 from email_actions import login_into_email, reset_email_password
 from twitter_actions import attempt_twitter_login, login_and_reset_twitter_password, generate_x_api_keys, generate_x_access_token_secret
 
-config = {
-    "DEBUG": True,     
-    "CACHE_TYPE": "SimpleCache",  
-    "CACHE_DEFAULT_TIMEOUT": 10000000
-}
-app = Flask(__name__)
-app.config.from_mapping(config)
-cache = Cache(app)
-
-async def perform_actions():
+async def generate_keys_and_access_tokens_actions():
     # Get environment variables
     kms_generated_password = getenv("KMS_GENERATED_PASSWORD")
     user_provided_password = getenv("USER_PASSWORD")
@@ -32,7 +22,7 @@ async def perform_actions():
         print("Failed to login with KMS generated password")
         if not await reset_email_password(browser, user_email, user_email_password, kms_generated_password):
             print("Failed to reset email password and recovery code")
-            return None, None
+            return None, None, None
         print("Email password reset and recovery code updated successfully")
     else:
         print("Logged in with KMS generated password")
@@ -44,7 +34,7 @@ async def perform_actions():
             print(f"Password reset successful, new password: {kms_generated_password}")
         else:
             print("Password reset failed")
-            return None, None
+            return None, None, None
     print("Successfully logged in into twitter with KMS password")
 
     # Stage 3: Fetch API keys from X developer dashboard
@@ -54,20 +44,38 @@ async def perform_actions():
     # Stage 4: Fetch access token from X developer dashboard
     access_token_result = await generate_x_access_token_secret(browser, username, user_email, kms_generated_password, x_app_name)
     access_tokens = json.loads(access_token_result) if access_token_result else None
-
-    return api_keys, access_tokens
-
-@app.route("/get_access_tokens", methods=["GET"])
-@cache.cached(timeout=10000000)
-async def get_access_tokens():
-    api_keys, access_tokens = await perform_actions()
+    timestamp = str(datetime.now())
+    # Save the keys and tokens to a file
     if api_keys and access_tokens:
-        return jsonify({
-            "api_keys": api_keys,
-            "access_tokens": access_tokens
-        })
-    else:
-        return jsonify({"error": "Failed to retrieve tokens"}), 500
+        with open("keys.json", "w") as f:
+            json.dump({"api_keys": api_keys, "access_tokens": access_tokens, "timestamp": timestamp}, f)
 
-if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000, debug=True)
+    return api_keys, access_tokens, timestamp
+
+async def verify_encumbrance_actions():
+    # Get environment variables
+    kms_generated_password = getenv("KMS_GENERATED_PASSWORD")
+    user_provided_password = getenv("USER_PASSWORD")
+    username = getenv("USERNAME")
+    user_email = getenv("USER_EMAIL")
+    user_email_password = getenv("USER_EMAIL_PASSWORD")
+    x_app_name = getenv("X_APP_NAME")
+
+    # Initialize browser
+    browser = await setup_browser()
+
+    # Stage 1: Try to login into email account with KMS generated password
+    if not await login_into_email(browser, user_email, kms_generated_password):
+        print("Failed to login with KMS generated password")
+        return False
+    else:
+        print("Successfully logged in with KMS generated password")
+
+    # Stage 2: Attempt twitter login with KMS generated password
+    if not await attempt_twitter_login(browser, username, user_email, kms_generated_password):
+        print("Failed to login into twitter with KMS password")
+        return False
+    else:
+        print("Successfully logged in into twitter with KMS password")
+
+    return True

@@ -16,12 +16,24 @@ X_APP_NAME=
 ## Running the twitter-agent
 
 ```
-python3 twtagent.py
+python3 main.py
 ```
 
-## Generate access token endpoint
+## Generate access token and api keys
 ```
-curl 127.0.0.1:5000/get_access_tokens
+curl 127.0.0.1:8000/generate_keys_and_access_tokens
+```
+
+`Note` : This can take upto 15-20mins.
+
+## Fetch access tokens and api keys
+```
+curl 127.0.0.1:8000/fetch_keys_and_tokens
+```
+
+## Verify encumbrance
+```
+curl 127.0.0.1:8000/verify_encumbrance
 ```
 
 ## TODO

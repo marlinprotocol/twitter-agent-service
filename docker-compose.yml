@@ -1,10 +1,6 @@
 services:
-  app:
-    image: twtagent
-    build:
-      context: .
-      dockerfile: Dockerfile
-    env_file:
-      - .env
-    ports:
-      - "6000:5000"
+  twtagent:
+    image: sagarparker/twtagent:latest
+    init: true
+    network_mode: host
+    restart: unless-stopped

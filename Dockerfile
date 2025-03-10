@@ -18,4 +18,4 @@ RUN /opt/venv/bin/pip install -r requirements.txt
 RUN npx playwright install --with-deps
 
 # Run the application
-CMD ["/opt/venv/bin/python", "twtagent.py"]
+CMD ["/opt/venv/bin/python", "main.py"]
