@@ -41,6 +41,29 @@ async def login_and_reset_twitter_password(
     final_result = action_results[-1].success
     return final_result
 
+async def twitter_account_verification(
+    browser: Browser, 
+    username: str, 
+    user_email: str, 
+    kms_generated_password: str,
+    x_app_name: str
+) -> bool:
+    agent_script = f"""
+    1. Visit https://x.com and click on Sign in, enter username {username}, on next screen enter the password {kms_generated_password} (While entering the password, make sure to click on show password button on the right of the password field).
+    2. If while login it asks for email, enter this {user_email} and click on next.
+    3. If login is successful with kms_generated_password, click on more on left hand side and click on settings and privacy (do it in the same tab after login, don't redirect to something else).
+    4. Click on your account and after that click on account information.
+    5. If asked for password, enter the password {kms_generated_password}.
+    6. On the next screen make sure the email matches the {user_email}'.
+    8. Next go to https://developer.x.com/en/portal/projects-and-apps and under PROJECT APP check if there is only one app with the name {x_app_name}.
+    9. If there is only one app with the extracted project name and it exactly matches  {x_app_name}, return the message 'App verification successful'.
+    """
+    agent = Agent(browser=browser, task=agent_script, llm=ChatOpenAI(model="gpt-4o"))
+    result = await agent.run()
+    action_results = result.action_results()
+    final_result = action_results[-1].success
+    return final_result
+
 
 async def generate_x_api_keys(
     browser: Browser, 

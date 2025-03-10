@@ -3,7 +3,7 @@ from os import getenv, path
 from datetime import datetime
 from browser_setup import setup_browser
 from email_actions import login_into_email, reset_email_password
-from twitter_actions import attempt_twitter_login, login_and_reset_twitter_password, generate_x_api_keys, generate_x_access_token_secret
+from twitter_actions import attempt_twitter_login, login_and_reset_twitter_password, generate_x_api_keys, generate_x_access_token_secret, twitter_account_verification
 
 async def generate_keys_and_access_tokens_actions():
     # Get environment variables
@@ -66,16 +66,16 @@ async def verify_encumbrance_actions():
 
     # Stage 1: Try to login into email account with KMS generated password
     if not await login_into_email(browser, user_email, kms_generated_password):
-        print("Failed to login with KMS generated password")
+        print("Failed to login into email account with KMS generated password")
         return False
     else:
-        print("Successfully logged in with KMS generated password")
+        print("Successfully logged in into email account with KMS generated password")
 
-    # Stage 2: Attempt twitter login with KMS generated password
-    if not await attempt_twitter_login(browser, username, user_email, kms_generated_password):
-        print("Failed to login into twitter with KMS password")
+    # Stage 2: Attempt twitter login and verify email id
+    if not await twitter_account_verification(browser, username, user_email, kms_generated_password, x_app_name):
+        print("Failed to verify if the twitter account is encumbered")
         return False
     else:
-        print("Successfully logged in into twitter with KMS password")
+        print("Successfully verified twitter account is encumbered")
 
     return True
