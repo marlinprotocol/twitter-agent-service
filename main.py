@@ -2,20 +2,10 @@ import json
 from os import getenv, path
 from flask import Flask, jsonify, request
 from actions import generate_keys_and_access_tokens_actions, verify_encumbrance_actions
-from functools import wraps
 
 app = Flask(__name__)
 
-def local_only(f):
-    @wraps(f)
-    def decorated_function(*args, **kwargs):
-        if request.remote_addr != '127.0.0.1' and request.remote_addr != 'localhost':
-            return jsonify({"error": "This endpoint can only be accessed locally inside the enclave"}), 403
-        return f(*args, **kwargs)
-    return decorated_function
-
 @app.route("/generate_keys_and_access_tokens", methods=["GET"])
-@local_only
 async def generate_keys_and_access_tokens():
     api_keys, access_tokens, timestamp = await generate_keys_and_access_tokens_actions()
     if api_keys and access_tokens:
@@ -28,7 +18,6 @@ async def generate_keys_and_access_tokens():
         return jsonify({"error": "Failed to retrieve tokens"}), 500
 
 @app.route("/fetch_keys_and_tokens", methods=["GET"])
-@local_only
 def fetch_keys_and_tokens():
     if path.exists("keys.json"):
         with open("keys.json", "r") as f:
