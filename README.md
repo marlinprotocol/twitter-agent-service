@@ -13,10 +13,10 @@ KMS_GENERATED_PASSWORD=
 X_APP_NAME=
 ```
 
-## Running the twitter-agent
+## Running the twitter-agent & verifier
 
 ```
-python3 main.py
+docker-compose up
 ```
 
 ## Generate access token and api keys
@@ -33,7 +33,7 @@ curl 127.0.0.1:8000/fetch_keys_and_tokens
 
 ## Verify encumbrance
 ```
-curl 127.0.0.1:8000/verify_encumbrance
+curl 127.0.0.1:8888/verify_encumbrance
 ```
 
 #### This endpoint provides the following guarantees:
@@ -52,6 +52,5 @@ curl 127.0.0.1:8000/verify_encumbrance
 - [x] Interface to get access tokens and api keys.
 - [ ] KMS integration for the password generation.
 - [ ] Enclave setup
-- [ ] SDK
 
 

@@ -16,6 +16,3 @@ RUN /opt/venv/bin/pip install -r requirements.txt
 RUN /opt/venv/bin/python -m playwright install
 
 RUN /opt/venv/bin/python -m playwright install-deps
-
-# Run the application
-CMD ["/opt/venv/bin/python", "main.py"]
