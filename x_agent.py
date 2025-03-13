@@ -1,13 +1,23 @@
 import json
-from os import getenv, path
-from flask import Flask, jsonify, request
+import hashlib
+from os import path
+from flask import Flask, jsonify
 from actions import generate_keys_and_access_tokens_actions
 
 app = Flask(__name__)
 
+def derive_kms_password():
+    binary_data = b'\xf0\x00\xad\tX\x0eYy\xc3M\xc9\x1bq\x86&\xfe\xe2\x91h\xe4\xbdg\x08\x90\xd8\xd9m#]\x93\x17\xc4' 
+    hashed_password = hashlib.sha256(binary_data).hexdigest()
+    return hashed_password
+
+# Store the hashed password in the app state
+app.config['KMS_GENERATED_PASSWORD'] = derive_kms_password()
+
 @app.route("/generate_keys_and_access_tokens", methods=["GET"])
 async def generate_keys_and_access_tokens():
-    api_keys, access_tokens, timestamp = await generate_keys_and_access_tokens_actions()
+    kms_generated_password = app.config['KMS_GENERATED_PASSWORD']
+    api_keys, access_tokens, timestamp = await generate_keys_and_access_tokens_actions(kms_generated_password)
     if api_keys and access_tokens:
         return jsonify({
             "api_keys": api_keys,
