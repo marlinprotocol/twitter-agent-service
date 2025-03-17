@@ -18,6 +18,18 @@ X_APP_NAME=
 docker-compose up
 ```
 
+## Deploy setup 
+
+#### Debug
+```
+./oyster-cvm deploy --operator **** --wallet-private-key ****  --pcr-preset base/blue/v1.0.0/arm64 --duration-in-minutes 20 --debug --no-stream --docker-compose docker-compose.yml --init-params "xagent/.env:1:0:file:./.env"
+```
+
+#### Production
+```
+./oyster-cvm deploy --operator **** --wallet-private-key ****  --pcr-preset base/blue/v1.0.0/arm64 --duration-in-minutes 20 --docker-compose docker-compose.yml --init-params "xagent/.env:1:1:file:./.env"
+```
+
 ## Generate access token and api keys
 ```
 curl 127.0.0.1:8000/generate_keys_and_access_tokens
