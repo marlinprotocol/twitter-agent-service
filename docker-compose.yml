@@ -1,19 +1,13 @@
 services:
   x_agent:
-    image: sagarparker/twtagent:latest
+    image: sagarparker/twtagenttest:latest
     init: true
     restart: unless-stopped
-    ports:
-      - "8000:8000"
+    network_mode: host
     command: ["/opt/venv/bin/python", "/app/x_agent.py"]
-    env_file:
-      - .env
   verifier:
-    image: sagarparker/twtagent:latest
+    image: sagarparker/twtagenttest:latest
     init: true
     restart: unless-stopped
-    ports:
-      - "8888:8888"
+    network_mode: host
     command: ["/opt/venv/bin/python", "/app/verifier.py"]
-    env_file:
-      - .env

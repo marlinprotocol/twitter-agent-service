@@ -13,6 +13,6 @@ RUN python3 -m venv /opt/venv
 
 RUN /opt/venv/bin/pip install -r requirements.txt
 
-RUN /opt/venv/bin/python -m playwright install
+# RUN /opt/venv/bin/python -m playwright install
 
-RUN /opt/venv/bin/python -m playwright install-deps
+# RUN /opt/venv/bin/python -m playwright install-deps

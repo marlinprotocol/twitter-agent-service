@@ -9,7 +9,6 @@ USER_PASSWORD=
 USERNAME=
 USER_EMAIL=
 USER_EMAIL_PASSWORD=
-KMS_GENERATED_PASSWORD=
 X_APP_NAME=
 ```
 
@@ -39,10 +38,9 @@ curl 127.0.0.1:8888/verify_encumbrance
 #### This endpoint provides the following guarantees:
 1. The password for the Twitter account is known only to the enclave.
 2. The password for the email account is known only to the enclave.
-3. The email account cannot be recovered because the recovery phrase was regenerated and the password was changed.
-4. The Twitter account cannot be recovered as there is no backup email and the email matches the provided email ID.
-5. There is only one app on the X developer portal, and its name matches the enclave-provided app name.
-6. The access tokens and API keys for the twitter account were regenerated.
+3. The Twitter account cannot be recovered as there is no backup email and the email matches the provided email ID.
+4. There is only one app on the X developer portal, and its name matches the enclave-provided app name.
+5. The access tokens and API keys for the twitter account were regenerated.
 
 ## TODO
 
@@ -50,7 +48,7 @@ curl 127.0.0.1:8888/verify_encumbrance
 - [x] Password and recovery phrase reset for tuta email-id.
 - [x] Generating access token for api access with X developer portal.
 - [x] Interface to get access tokens and api keys.
-- [ ] KMS integration for the password generation.
+- [x] KMS integration for the password generation.
 - [ ] Enclave setup
 
 

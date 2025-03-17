@@ -2,14 +2,19 @@ import json
 import hashlib
 from os import path
 from flask import Flask, jsonify
-from actions import generate_keys_and_access_tokens_actions
+import requests
+# from actions import generate_keys_and_access_tokens_actions
 
 app = Flask(__name__)
 
 def derive_kms_password():
-    binary_data = b'\xf0\x00\xad\tX\x0eYy\xc3M\xc9\x1bq\x86&\xfe\xe2\x91h\xe4\xbdg\x08\x90\xd8\xd9m#]\x93\x17\xc4' 
-    hashed_password = hashlib.sha256(binary_data).hexdigest()
-    return hashed_password
+    response = requests.get("http://127.0.0.1:1100/derive?path=xagentpwd")
+    if response.status_code == 200:
+        binary_data = response.content
+        hashed_password = hashlib.sha256(binary_data).hexdigest()
+        return hashed_password
+    else:
+        raise Exception("Failed to fetch binary data")
 
 # Store the hashed password in the app state
 app.config['KMS_GENERATED_PASSWORD'] = derive_kms_password()
@@ -17,15 +22,16 @@ app.config['KMS_GENERATED_PASSWORD'] = derive_kms_password()
 @app.route("/generate_keys_and_access_tokens", methods=["GET"])
 async def generate_keys_and_access_tokens():
     kms_generated_password = app.config['KMS_GENERATED_PASSWORD']
-    api_keys, access_tokens, timestamp = await generate_keys_and_access_tokens_actions(kms_generated_password)
-    if api_keys and access_tokens:
-        return jsonify({
-            "api_keys": api_keys,
-            "access_tokens": access_tokens,
-            "timestamp": timestamp
-        })
-    else:
-        return jsonify({"error": "Failed to retrieve tokens"}), 500
+    # api_keys, access_tokens, timestamp = await generate_keys_and_access_tokens_actions(kms_generated_password)
+    # if api_keys and access_tokens:
+    #     return jsonify({
+    #         "api_keys": api_keys,
+    #         "access_tokens": access_tokens,
+    #         "timestamp": timestamp
+    #     })
+    # else:
+    #     return jsonify({"error": "Failed to retrieve tokens"}), 500
+    return jsonify({"kms_generated_password": kms_generated_password})
 
 @app.route("/fetch_keys_and_tokens", methods=["GET"])
 def fetch_keys_and_tokens():
