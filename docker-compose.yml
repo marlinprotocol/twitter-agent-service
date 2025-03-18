@@ -1,6 +1,6 @@
 services:
   x_agent:
-    image: sagarparker/twtagenttest:latest
+    image: sagarparker/twtagent_amd64:latest
     init: true
     restart: unless-stopped
     network_mode: host
@@ -10,13 +10,11 @@ services:
     env_file:
       - /init-params/xagent/.env
   verifier:
-    image: sagarparker/twtagenttest:latest
+    image: sagarparker/twtagent_amd64:latest
     init: true
     restart: unless-stopped
     network_mode: host
     command: ["/opt/venv/bin/python", "/app/verifier.py"]
-    ports:
-      - "8888:8888"
     volumes:
       - /init-params/:/init-params/
     env_file:

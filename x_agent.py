@@ -3,7 +3,7 @@ import hashlib
 from os import path
 from flask import Flask, jsonify
 import requests
-# from actions import generate_keys_and_access_tokens_actions
+from actions import generate_keys_and_access_tokens_actions
 
 app = Flask(__name__)
 
