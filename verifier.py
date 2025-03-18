@@ -8,7 +8,9 @@ import requests
 app = Flask(__name__)
 
 def derive_kms_password():
-    response = requests.get("http://127.0.0.1:1100/derive?path=xagentpwd")
+    kms_endpoint = getenv("KMS_ENDPOINT")
+    url=kms_endpoint+"/derive?path=xagentpwd"
+    response = requests.get(url)
     if response.status_code == 200:
         binary_data = response.content
         hashed_password = hashlib.sha256(binary_data).hexdigest()
