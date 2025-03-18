@@ -22,22 +22,19 @@ app.config['KMS_GENERATED_PASSWORD'] = derive_kms_password()
 @app.route("/verify_encumbrance", methods=["GET"])
 async def verify_encumbrance():
     username = getenv("USERNAME")
-    print(f"Username: {username}")
-    print("In verify_encumbrance")
+
     kms_generated_password = app.config['KMS_GENERATED_PASSWORD']
-
-    # if not await verify_encumbrance_actions(kms_generated_password):
-    #     return jsonify({"message": "Accounts are not encumbered"})
-    # else:
-    #     if path.exists("keys.json"):
-    #         with open("keys.json", "r") as f:
-    #             data = json.load(f)
-    #             timestamp = data.get("timestamp", "unknown time")
-    #             return jsonify({"message": f"Twitter account {username} is encumbered and the api keys and access tokens were generated on {timestamp}"})
-    #     else:
-    #         return jsonify({"message": f"Twitter account {username} is encumbered, but no timestamp for keys and tokens generation was found."}), 404
-
-    return jsonify({"kms_generated_password": kms_generated_password})
+    print(f"KMS generated password: {kms_generated_password}")
+    if not await verify_encumbrance_actions(kms_generated_password):
+        return jsonify({"message": "Accounts are not encumbered"})
+    else:
+        if path.exists("keys.json"):
+            with open("keys.json", "r") as f:
+                data = json.load(f)
+                timestamp = data.get("timestamp", "unknown time")
+                return jsonify({"message": f"Twitter account {username} is encumbered and the api keys and access tokens were generated on {timestamp}"})
+        else:
+            return jsonify({"message": f"Twitter account {username} is encumbered, but no timestamp for keys and tokens generation was found."}), 404
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=8888, debug=True)

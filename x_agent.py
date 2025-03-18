@@ -22,16 +22,15 @@ app.config['KMS_GENERATED_PASSWORD'] = derive_kms_password()
 @app.route("/generate_keys_and_access_tokens", methods=["GET"])
 async def generate_keys_and_access_tokens():
     kms_generated_password = app.config['KMS_GENERATED_PASSWORD']
-    # api_keys, access_tokens, timestamp = await generate_keys_and_access_tokens_actions(kms_generated_password)
-    # if api_keys and access_tokens:
-    #     return jsonify({
-    #         "api_keys": api_keys,
-    #         "access_tokens": access_tokens,
-    #         "timestamp": timestamp
-    #     })
-    # else:
-    #     return jsonify({"error": "Failed to retrieve tokens"}), 500
-    return jsonify({"kms_generated_password": kms_generated_password})
+    api_keys, access_tokens, timestamp = await generate_keys_and_access_tokens_actions(kms_generated_password)
+    if api_keys and access_tokens:
+        return jsonify({
+            "api_keys": api_keys,
+            "access_tokens": access_tokens,
+            "timestamp": timestamp
+        })
+    else:
+        return jsonify({"error": "Failed to retrieve tokens"}), 500
 
 @app.route("/fetch_keys_and_tokens", methods=["GET"])
 def fetch_keys_and_tokens():
