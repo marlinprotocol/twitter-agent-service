@@ -10,7 +10,7 @@ USERNAME=
 USER_EMAIL=
 USER_EMAIL_PASSWORD=
 X_APP_NAME=
-KMS_ENDPOINT=
+KMS_ENDPOINT=http://kms_imitator:1100 for local / http://127.0.0.1:1100 for production
 ```
 
 ## Running the twitter-agent & verifier locally
@@ -27,12 +27,12 @@ docker-compose up --build
 
 #### Debug
 ```
-./oyster-cvm deploy --operator **** --wallet-private-key ****  --pcr-preset base/blue/v1.0.0/arm64 --duration-in-minutes 20 --debug --no-stream --docker-compose docker-compose.yml --init-params "xagent/.env:1:0:file:./.env"
+./oyster-cvm deploy --wallet-private-key ****** --pcr-preset base/blue/v1.0.0/amd64 --duration-in-minutes 45 --debug --no-stream --docker-compose docker-compose-prod.yml --operator ****** --instance-type r6i.xlarge --image-url https://artifacts.marlin.org/oyster/eifs/base-blue_v1.0.0_linux_amd64.eif --init-params "xagent/.env:1:0:file:.env"
 ```
 
 #### Production
 ```
-./oyster-cvm deploy --operator **** --wallet-private-key ****  --pcr-preset base/blue/v1.0.0/arm64 --duration-in-minutes 20 --docker-compose docker-compose.yml --init-params "xagent/.env:1:1:file:./.env"
+./oyster-cvm deploy --wallet-private-key ***** --pcr-preset base/blue/v1.0.0/amd64 --duration-in-minutes 45 --docker-compose docker-compose-prod.yml --operator ***** --instance-type r6i.xlarge --image-url https://artifacts.marlin.org/oyster/eifs/base-blue_v1.0.0_linux_amd64.eif --init-params "xagent/.env:1:1:file:.env"
 ```
 
 ## Generate access token and api keys
