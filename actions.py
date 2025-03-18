@@ -46,7 +46,7 @@ async def generate_keys_and_access_tokens_actions(kms_generated_password):
     timestamp = str(datetime.now())
     # Save the keys and tokens to a file
     if api_keys and access_tokens:
-        with open("keys.json", "w") as f:
+        with open("/app/shared_data/keys.json", "w") as f:
             json.dump({"api_keys": api_keys, "access_tokens": access_tokens, "timestamp": timestamp}, f)
 
     return api_keys, access_tokens, timestamp

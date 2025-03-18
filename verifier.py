@@ -30,13 +30,13 @@ async def verify_encumbrance():
     if not await verify_encumbrance_actions(kms_generated_password):
         return jsonify({"message": "Accounts are not encumbered"})
     else:
-        if path.exists("keys.json"):
-            with open("keys.json", "r") as f:
+        if path.exists("/app/shared_data/keys.json"):
+            with open("/app/shared_data/keys.json", "r") as f:
                 data = json.load(f)
                 timestamp = data.get("timestamp", "unknown time")
                 return jsonify({"message": f"Twitter account {username} is encumbered and the api keys and access tokens were generated on {timestamp}"})
         else:
-            return jsonify({"message": f"Twitter account {username} is encumbered, but no timestamp for keys and tokens generation was found."}), 404
+            return jsonify({"message": f"No timestamp for keys and tokens generation was found."}), 404
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=8888, debug=True)

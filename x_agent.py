@@ -36,8 +36,8 @@ async def generate_keys_and_access_tokens():
 
 @app.route("/fetch_keys_and_tokens", methods=["GET"])
 def fetch_keys_and_tokens():
-    if path.exists("keys.json"):
-        with open("keys.json", "r") as f:
+    if path.exists("/app/shared_data/keys.json"):
+        with open("/app/shared_data/keys.json", "r") as f:
             data = json.load(f)
             if data:
                 return jsonify(data)

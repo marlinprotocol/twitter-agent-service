@@ -8,6 +8,8 @@ services:
       - .env
     ports:
       - "8000:8000"
+    volumes:
+      - shared_data:/app/shared_data
   verifier:
     image: twtagent:latest
     init: true
@@ -17,6 +19,8 @@ services:
       - .env
     ports:
       - "8888:8888"
+    volumes:
+      - shared_data:/app/shared_data
   kms_imitator:
     image: twtagent:latest
     init: true
@@ -24,3 +28,6 @@ services:
     command: ["/opt/venv/bin/python", "/app/kms_imitator.py"]
     ports:
       - "1100:1100"
+
+volumes:
+  shared_data:
