@@ -10,12 +10,17 @@ USERNAME=
 USER_EMAIL=
 USER_EMAIL_PASSWORD=
 X_APP_NAME=
+KMS_ENDPOINT=
 ```
 
-## Running the twitter-agent & verifier
+## Running the twitter-agent & verifier locally
 
 ```
-docker-compose up
+docker build -t twtagent .
+```
+
+```
+docker-compose up --build
 ```
 
 ## Deploy setup 
