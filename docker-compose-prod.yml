@@ -1,33 +1,26 @@
 services:
   x_agent:
-    image: twtagent:latest
+    image: sagarparker/twtagent_amd64:latest
     init: true
     restart: unless-stopped
+    network_mode: host
     command: ["/opt/venv/bin/python", "/app/x_agent.py"]
-    env_file:
-      - .env
-    ports:
-      - "8000:8000"
     volumes:
+      - /init-params/:/init-params/
       - shared_data:/app/shared_data
+    env_file:
+      - /init-params/xagent/.env
   verifier:
-    image: twtagent:latest
+    image: sagarparker/twtagent_amd64:latest
     init: true
     restart: unless-stopped
+    network_mode: host
     command: ["/opt/venv/bin/python", "/app/verifier.py"]
-    env_file:
-      - .env
-    ports:
-      - "8888:8888"
     volumes:
+      - /init-params/:/init-params/
       - shared_data:/app/shared_data
-  kms_imitator:
-    image: twtagent:latest
-    init: true
-    restart: unless-stopped
-    command: ["/opt/venv/bin/python", "/app/kms_imitator.py"]
-    ports:
-      - "1100:1100"
+    env_file:
+      - /init-params/xagent/.env
 
 volumes:
   shared_data:

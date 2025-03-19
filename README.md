@@ -1,6 +1,6 @@
 # oyster-x-agent
 
-AI agent that automates the process of sending tweets from an X account managed by Oyster.
+An AI agent service that securely exposes Twitter API keys and access tokens for a encumbered Twitter account within an Oyster Enclave, enabling other services inside the enclave to make verifiable tweets.
 
 ## .env file
 ```
@@ -9,40 +9,61 @@ USER_PASSWORD=
 USERNAME=
 USER_EMAIL=
 USER_EMAIL_PASSWORD=
-KMS_GENERATED_PASSWORD=
 X_APP_NAME=
+KMS_ENDPOINT=http://kms_imitator:1100 for local / http://127.0.0.1:1100 for production
 ```
 
-## Running the twitter-agent & verifier
+## Running the twitter-agent & verifier locally
 
 ```
-docker-compose up
+docker build -t twtagent .
+```
+
+```
+docker-compose up --build
+```
+
+## Deploy on oyster
+
+#### Install oyster-cvm by following the official guide
+
+
+https://docs.marlin.org/oyster/build-cvm/quickstart
+
+#### Deploy in debug mode 
+`WARNING` : This exposes environment variables, which may pose security risks. Proceed with caution.
+```
+./oyster-cvm deploy --wallet-private-key ****** --pcr-preset base/blue/v1.0.0/amd64 --duration-in-minutes 45 --debug --no-stream --docker-compose docker-compose-prod.yml --operator ****** --instance-type r6i.xlarge --image-url https://artifacts.marlin.org/oyster/eifs/base-blue_v1.0.0_linux_amd64.eif --init-params "xagent/.env:1:0:file:.env"
+```
+
+#### Deploy in production mode
+```
+./oyster-cvm deploy --wallet-private-key ***** --pcr-preset base/blue/v1.0.0/amd64 --duration-in-minutes 45 --docker-compose docker-compose-prod.yml --operator ***** --instance-type r6i.xlarge --image-url https://artifacts.marlin.org/oyster/eifs/base-blue_v1.0.0_linux_amd64.eif --init-params "xagent/.env:1:1:file:.env"
 ```
 
 ## Generate access token and api keys
 ```
-curl 127.0.0.1:8000/generate_keys_and_access_tokens
+curl {oyster_enclave_ip}:8000/generate_keys_and_access_tokens
 ```
 
 `Note` : This can take upto 15-20mins.
 
 ## Fetch access tokens and api keys
 ```
-curl 127.0.0.1:8000/fetch_keys_and_tokens
+curl {oyster_enclave_ip}:8000/fetch_keys_and_tokens
 ```
 
 ## Verify encumbrance
 ```
-curl 127.0.0.1:8888/verify_encumbrance
+curl {oyster_enclave_ip}:8888/verify_encumbrance
 ```
 
 #### This endpoint provides the following guarantees:
 1. The password for the Twitter account is known only to the enclave.
 2. The password for the email account is known only to the enclave.
-3. The email account cannot be recovered because the recovery phrase was regenerated and the password was changed.
-4. The Twitter account cannot be recovered as there is no backup email and the email matches the provided email ID.
-5. There is only one app on the X developer portal, and its name matches the enclave-provided app name.
-6. The access tokens and API keys for the twitter account were regenerated.
+3. The Twitter account cannot be recovered as there is no backup email and the email matches the provided email ID.
+4. There is only one app on the X developer portal, and its name matches the enclave-provided app name.
+5. The access tokens and API keys for the twitter account were regenerated.
 
 ## TODO
 
@@ -50,7 +71,7 @@ curl 127.0.0.1:8888/verify_encumbrance
 - [x] Password and recovery phrase reset for tuta email-id.
 - [x] Generating access token for api access with X developer portal.
 - [x] Interface to get access tokens and api keys.
-- [ ] KMS integration for the password generation.
-- [ ] Enclave setup
+- [x] KMS integration for the password generation.
+- [x] Enclave setup
 
 

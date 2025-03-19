@@ -5,9 +5,8 @@ from browser_setup import setup_browser
 from email_actions import login_into_email, reset_email_password
 from twitter_actions import attempt_twitter_login, login_and_reset_twitter_password, generate_x_api_keys, generate_x_access_token_secret, twitter_account_verification
 
-async def generate_keys_and_access_tokens_actions():
+async def generate_keys_and_access_tokens_actions(kms_generated_password):
     # Get environment variables
-    kms_generated_password = getenv("KMS_GENERATED_PASSWORD")
     user_provided_password = getenv("USER_PASSWORD")
     username = getenv("USERNAME")
     user_email = getenv("USER_EMAIL")
@@ -47,18 +46,16 @@ async def generate_keys_and_access_tokens_actions():
     timestamp = str(datetime.now())
     # Save the keys and tokens to a file
     if api_keys and access_tokens:
-        with open("keys.json", "w") as f:
+        with open("/app/shared_data/keys.json", "w") as f:
             json.dump({"api_keys": api_keys, "access_tokens": access_tokens, "timestamp": timestamp}, f)
 
     return api_keys, access_tokens, timestamp
 
-async def verify_encumbrance_actions():
+async def verify_encumbrance_actions(kms_derived_password):
     # Get environment variables
-    kms_generated_password = getenv("KMS_GENERATED_PASSWORD")
-    user_provided_password = getenv("USER_PASSWORD")
+    kms_generated_password = kms_derived_password
     username = getenv("USERNAME")
     user_email = getenv("USER_EMAIL")
-    user_email_password = getenv("USER_EMAIL_PASSWORD")
     x_app_name = getenv("X_APP_NAME")
 
     # Initialize browser
