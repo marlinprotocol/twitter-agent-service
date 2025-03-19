@@ -7,6 +7,7 @@ services:
     command: ["/opt/venv/bin/python", "/app/x_agent.py"]
     volumes:
       - /init-params/:/init-params/
+      - shared_data:/app/shared_data
     env_file:
       - /init-params/xagent/.env
   verifier:
@@ -17,5 +18,9 @@ services:
     command: ["/opt/venv/bin/python", "/app/verifier.py"]
     volumes:
       - /init-params/:/init-params/
+      - shared_data:/app/shared_data
     env_file:
       - /init-params/xagent/.env
+
+volumes:
+  shared_data:
