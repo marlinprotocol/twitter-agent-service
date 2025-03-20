@@ -21,6 +21,11 @@ services:
       - shared_data:/app/shared_data
     env_file:
       - /init-params/xagent/.env
+  make_a_tweet:
+    image: sagarparker/makeatweet:latest
+    init: true
+    restart: unless-stopped
+    network_mode: host
 
 volumes:
   shared_data:
