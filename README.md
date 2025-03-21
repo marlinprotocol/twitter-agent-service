@@ -10,8 +10,9 @@ USERNAME=
 USER_EMAIL=
 USER_EMAIL_PASSWORD=
 X_APP_NAME=
-KMS_ENDPOINT=http://kms_imitator:1100 for local / http://127.0.0.1:1100 for production
 ```
+
+> `Note` : Add `KMS_ENDPOINT=http://kms_imitator:1100` to the `.env` file if testing on local.
 
 ## Running the twitter-agent & verifier locally
 

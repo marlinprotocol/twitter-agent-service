@@ -8,7 +8,7 @@ import requests
 app = Flask(__name__)
 
 def derive_kms_password():
-    kms_endpoint = getenv("KMS_ENDPOINT")
+    kms_endpoint = getenv("KMS_ENDPOINT", "http://127.0.0.1:1100")
     url=kms_endpoint+"/derive?path=xagentpwd"
     response = requests.get(url)
     if response.status_code == 200:
