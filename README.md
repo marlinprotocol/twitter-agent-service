@@ -100,7 +100,7 @@ An AI agent service that securely exposes Twitter API keys and access tokens for
 
 4. Deploy your application with oyster-cvm using the following command
    ```bash
-   ./oyster-cvm deploy --wallet-private-key *** --pcr-preset base/blue/v1.0.0/amd64 --duration-in-minutes 45 --docker-compose docker-compose-prod.yml --operator **** --instance-type r6i.xlarge --image-url https://artifacts.marlin.org/oyster/eifs/base-blue_v1.0.0_linux_amd64.eif --init-params "xagent/.env:1:1:file:.env"
+   ./oyster-cvm deploy --wallet-private-key *** --pcr-preset base/blue/v1.0.0/amd64 --duration-in-minutes 45 --docker-compose docker-compose.yml --operator **** --instance-type r6i.xlarge --image-url https://artifacts.marlin.org/oyster/eifs/base-blue_v1.0.0_linux_amd64.eif --init-params "xagent/.env:1:1:file:.env"
    ```
    >**Note** : You can specify init parameters for your application by adding more --init-params flags to your command.
 
