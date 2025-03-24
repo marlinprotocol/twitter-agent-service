@@ -26,29 +26,24 @@ An AI agent service that securely exposes Twitter API keys and access tokens for
    docker-compose up --build
    ```
 
-## Generate access token and api keys inside the enclave
-```
-curl 127.0.0.1:8000/generate_keys_and_access_tokens
-```
+3. Generate access token and api keys inside the enclave
+   ```
+   curl 127.0.0.1:8000/generate_keys_and_access_tokens
+   ```
 
-`Note` : This can take upto 15-20mins.
+   >**Note** : This can take upto 15-20mins.
 
-## Fetch access tokens and api keys inside the enclave
-```
-curl 127.0.0.1:8000/fetch_keys_and_tokens
-```
+4. Fetch access tokens and api keys inside the enclave
+   ```
+   curl 127.0.0.1:8000/fetch_keys_and_tokens
+   ```
 
-## Verify encumbrance
-```
-curl 127.0.0.1:8888/verify_encumbrance
-```
+5. Verify encumbrance
+   ```
+   curl 127.0.0.1:8888/verify_encumbrance
+   ```
 
-#### This endpoint provides the following guarantees:
-1. The password for the Twitter account is known only to the enclave.
-2. The password for the email account is known only to the enclave.
-3. The Twitter account cannot be recovered as there is no backup email and the email matches the provided email ID.
-4. There is only one app on the X developer portal, and its name matches the enclave-provided app name.
-5. The access tokens and API keys for the twitter account were regenerated.
+
 
 ## Integrating twitter agent service into your enclave application
 
@@ -113,6 +108,13 @@ curl 127.0.0.1:8888/verify_encumbrance
    ```
    curl {oyster_enclave_ip}:8888/verify_encumbrance
    ```
+
+   #### This endpoint provides the following guarantees:
+   1. The password for the Twitter account is known only to the enclave.
+   2. The password for the email account is known only to the enclave.
+   3. The Twitter account cannot be recovered as there is no backup email and the email matches the provided email ID.
+   4. There is only one app on the X developer portal, and its name matches the enclave-provided app name.
+   5. The access tokens and API keys for the twitter account were regenerated.
 
 ## TODO
 
