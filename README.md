@@ -1,4 +1,4 @@
-# oyster-x-agent
+# twitter-agent-service
 
 An AI agent service that securely exposes Twitter API keys and access tokens for a encumbered Twitter account within an Oyster Enclave, enabling other services inside the enclave to make verifiable tweets.
 
