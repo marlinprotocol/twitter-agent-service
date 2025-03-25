@@ -60,8 +60,8 @@ An AI agent service that securely exposes Twitter API keys and access tokens for
 
 2. Include the following services and volume in your docker-compose.yml
    ```yaml
-   x_agent:
-      image: sagarparker/twtagent_amd64:latest
+   twitter_agent_service:
+      image: sagarparker/twitter_agent_service_amd64:latest
       init: true
       restart: unless-stopped
       network_mode: host
@@ -70,9 +70,9 @@ An AI agent service that securely exposes Twitter API keys and access tokens for
          - /init-params/:/init-params/
          - shared_data:/app/shared_data
       env_file:
-         - /init-params/xagent/.env
+         - /init-params/.env
    verifier:
-      image: sagarparker/twtagent_amd64:latest
+      image: sagarparker/twitter_agent_service_amd64:latest
       init: true
       restart: unless-stopped
       network_mode: host
@@ -81,7 +81,7 @@ An AI agent service that securely exposes Twitter API keys and access tokens for
          - /init-params/:/init-params/
          - shared_data:/app/shared_data
       env_file:
-         - /init-params/xagent/.env
+         - /init-params/.env
       
    volumes:
    shared_data:

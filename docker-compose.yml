@@ -1,5 +1,5 @@
 services:
-  x_agent:
+  twitter_agent_service:
     image: twtagent:latest
     init: true
     restart: unless-stopped
