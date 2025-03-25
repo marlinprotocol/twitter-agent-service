@@ -84,7 +84,7 @@ An AI agent service that securely exposes Twitter API keys and access tokens for
          - /init-params/.env
       
    volumes:
-   shared_data:
+      shared_data:
    ```
 
 3. In your application generate and retrieve access tokens securely within Oyster Enclaves using the following endpoints
