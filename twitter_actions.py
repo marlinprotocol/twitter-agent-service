@@ -12,6 +12,7 @@ async def attempt_twitter_login(
     1. Visit https://x.com and click on Sign in, enter username {username}, on next screen enter the password {kms_generated_password} (While entering the password, make sure to click on show password button on the right of the password field).
     2. If while login it asks for email or phone no for verification, enter this {user_email} and click on next.
     3. If you are able to see the For you and Following tab login was successfull and just return the message 'Login to the twitter account successfull with KMS generated password'.
+    d. If login fails, retry up to 3 times. After 3 failed attempts, return the message 'Login failed after 3 attempts'.
     """
     agent = Agent(browser=browser, task=agent_script, llm=ChatOpenAI(model="gpt-4o"))
     result = await agent.run()
