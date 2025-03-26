@@ -4,17 +4,21 @@ An AI agent service that securely exposes Twitter API keys and access tokens for
 
 ## Running the twitter agent service locally
 
-1. Create a `.env` file with all the required details
+1. Create environment variables files with all the required details
    ## .env file
    ```
-   OPENAI_API_KEY=
-   USER_PASSWORD=
    USERNAME=
    USER_EMAIL=
-   USER_EMAIL_PASSWORD=
    X_APP_NAME=
    KMS_ENDPOINT=http://kms_imitator:1100
    AGENT_HOST=0.0.0.0
+   ```
+
+   ## .env.secrets
+   ```
+   OPENAI_API_KEY=
+   USER_PASSWORD=
+   USER_EMAIL_PASSWORD=
    ```
 
 2. Build and run locally
@@ -47,15 +51,19 @@ An AI agent service that securely exposes Twitter API keys and access tokens for
 
 ## Integrating twitter agent service into your enclave application
 
-1. Create a `.env` file with all the required details
+1. Create environment variables files with all the required details
    ## .env file
+   ```
+   USERNAME=
+   USER_EMAIL=
+   X_APP_NAME=
+   ```
+
+   ## .env.secrets
    ```
    OPENAI_API_KEY=
    USER_PASSWORD=
-   USERNAME=
-   USER_EMAIL=
    USER_EMAIL_PASSWORD=
-   X_APP_NAME=
    ```
 
 2. Include the following services and volume in your docker-compose.yml
@@ -71,6 +79,7 @@ An AI agent service that securely exposes Twitter API keys and access tokens for
          - shared_data:/app/shared_data
       env_file:
          - /init-params/.env
+         - /init-params/.env.secrets
    verifier:
       image: sagarparker/twitter_agent_service_amd64:latest
       init: true
@@ -82,6 +91,7 @@ An AI agent service that securely exposes Twitter API keys and access tokens for
          - shared_data:/app/shared_data
       env_file:
          - /init-params/.env
+         - /init-params/.env.secrets
       
    volumes:
       shared_data:
@@ -100,7 +110,7 @@ An AI agent service that securely exposes Twitter API keys and access tokens for
 
 4. Deploy your application with oyster-cvm using the following command
    ```bash
-   ./oyster-cvm deploy --wallet-private-key *** --pcr-preset base/blue/v1.0.0/amd64 --duration-in-minutes 45 --docker-compose docker-compose.yml --operator **** --instance-type r6i.xlarge --image-url https://artifacts.marlin.org/oyster/eifs/base-blue_v1.0.0_linux_amd64.eif --init-params "xagent/.env:1:1:file:.env"
+   ./oyster-cvm deploy --wallet-private-key *** --pcr-preset base/blue/v1.0.0/amd64 --duration-in-minutes 45 --docker-compose docker-compose.yml --operator **** --instance-type r6i.xlarge --image-url https://artifacts.marlin.org/oyster/eifs/base-blue_v1.0.0_linux_amd64.eif --init-params ".env:1:1:file:.env" --init-params ".env.secrets:0:1:file:.env.secrets"
    ```
    >**Note** : You can specify init parameters for your application by adding more --init-params flags to your command.
 
