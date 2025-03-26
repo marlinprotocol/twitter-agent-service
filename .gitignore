@@ -1,4 +1,5 @@
 .env
+.env.secrets
 path
 oyster-cvm
 keys.json
